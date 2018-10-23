@@ -1,8 +1,8 @@
-###IYSQL Design Documents
+### IYSQL Design Documents
 
 IYSQL - Improve You SQL 
 
-####Architecture
+#### Architecture
 
 ![design](./images/design-arch.png)
 
