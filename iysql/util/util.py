@@ -8,6 +8,8 @@ def execute_commond_get_stdout(commond):
     stdout, stderr = p.communicate()
     if p.returncode !=0:
         return stderr.decode(errors='ignore')
+    elif len(stderr) != 0:
+        return stderr.decode(errors='ignore')
     return stdout.decode(errors='ignore')
 
 def get_databases(host, port, user, password):
