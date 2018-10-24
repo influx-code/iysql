@@ -70,7 +70,7 @@
                     <label class="label-title">SQL语句</label>
                     <div class="plugin-wrapper" v-if="plugins.length>0">
                         <label class="types"></label>
-                        <el-checkbox :indeterminate="isIndeterminate" v-model="check_all_plugin" @change="handleCheckAllPlugin">所有工具(默认支持Soar)</el-checkbox>
+                        <el-checkbox :indeterminate="isIndeterminate" v-model="check_all_plugin" @change="handleCheckAllPlugin">所有工具(默认选择Soar)</el-checkbox>
                           <div style="margin: 15px 0;"></div>
                           <el-checkbox-group v-model="checked_plugin" @change="handleCheckedPluginChange">
                             <el-checkbox v-for="plugin in plugins" :label="plugin" :key="plugin">{{plugin}}</el-checkbox>
