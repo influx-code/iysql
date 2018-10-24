@@ -1,0 +1,15 @@
+-i https://pypi.org/simple
+click==7.0; python_version >= '2.7'
+dnspython==1.15.0
+eventlet==0.24.1
+flask-socketio==3.0.2
+flask==1.0.2
+greenlet==0.4.15
+itsdangerous==1.0.0; python_version >= '2.7'
+jinja2==2.10
+markupsafe==1.0
+monotonic==1.5
+python-engineio==2.3.2
+python-socketio==2.0.0
+six==1.11.0
+werkzeug==0.14.1
