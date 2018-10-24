@@ -21,10 +21,11 @@ class Soar(Plugin):
             if skill_content_dict['type'] == 1:
                 command_str += ' {}={} '.format(skill_name, skill_content_dict['default'])
         conn_str = self._generate_conn_str(args)
-        command_str += ' -online-dsn="{}" '.format(conn_str)
+        command_str += ' -test-dsn="{}" '.format(conn_str)
         command_str += ' -query="{}" '.format(args.get('sql'))
         return command_str
 
     def execute_commond(self, commond):
+        print(commond)
         return execute_commond_get_stdout(commond)
         

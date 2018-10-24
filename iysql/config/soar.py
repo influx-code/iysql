@@ -1,7 +1,7 @@
 soar_configs = {
-    'execuable_path': '/root/soft/soar-master/soar',
+    'execuable_path': 'soar',
     'user': 'root',
-    'password': 'root',
+    'password': '123456',
     'host': '127.0.0.1',
     'port': 3306,
     'database': 'blog',
@@ -9,6 +9,22 @@ soar_configs = {
     	"-report-type":{
     		"type" : 1,
     		"default" : "text"
-    	}
+    	},
+        "-allow-online-as-test":{
+            "type" : 1,
+            "default": "true"
+        },
+        "-profiling":{
+            "type" : 1,
+            "default": "true"
+        },
+        "-trace":{
+            "type" : 1,
+            "default": "true"
+        },
+        "-verbose":{
+            "type" : 1,
+            "default": "true"
+        }
     }
 }
