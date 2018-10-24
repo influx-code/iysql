@@ -1,12 +1,10 @@
-from app import create_app
+from app import create_app, handle_message
 from flask_socketio import SocketIO
 from json import dumps
+
 app = create_app()
 socketIo = SocketIO(app)
-
-@socketIo.on('sqladvisor')
-def handle_message(json):
-    print('received message: ' , dumps(json))
+socketIo.on_event('sqladvisor', handle_message)
 
 if __name__ == '__main__':
     socketIo.run(app,
