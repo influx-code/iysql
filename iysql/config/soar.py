@@ -6,7 +6,7 @@ soar_configs = {
     'port': 3306,
     'database': 'blog',
     'skills': {
-    	"report-type":{
+    	"-report-type":{
     		"type" : 1,
     		"default" : "text"
     	}
