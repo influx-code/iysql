@@ -12,5 +12,4 @@ def get_databases(host, port, user, password):
                                  password=password,
                                  port=port,
                                  db='information_schema')
-    try:
-        pass
+
