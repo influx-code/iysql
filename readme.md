@@ -9,3 +9,9 @@ IYSQL - Improve Your SQL
 #### Demo
 
 ![demo](./docs/images/demo.png)
+
+#### 依赖
+
+- [Vue](http://vuejs.org)
+- [Element-UI](https://element.eleme.io/#/)
+- [Flask](http://flask.pocoo.org/)
