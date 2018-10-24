@@ -6,6 +6,7 @@ def execute_commond_get_stdout(commond):
     commond_list = split(commond)
     p = Popen(commond_list, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
+    print({'code':p.returncode, 'stdout':stdout, 'stderr':stderr})
     if p.returncode !=0:
         return stderr.decode(errors='ignore')
     elif len(stderr) != 0:
