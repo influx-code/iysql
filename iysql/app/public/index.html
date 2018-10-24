@@ -28,8 +28,16 @@
                     </div>
                     <div class="input-wrapper">
                         <label class="label">数据库:</label>
-                        <el-input placeholder="数据库" v-model="configs['database']" clearable>
+                        <el-input placeholder="数据库" v-if="databases.length==0" v-model="configs['database']" clearable>
                         </el-input>
+                        <el-select v-model="configs['database']"  filterable clearable placeholder="请选择数据库" v-else>
+                            <el-option
+                              v-for="item in databases"
+                              :key="item"
+                              :label="item"
+                              :value="item">
+                            </el-option>
+                          </el-select>
                     </div>
                     <div class="inline-wrapper">
                         <div class="input-wrapper">
@@ -49,7 +57,7 @@
                         </div>
                     </div>
                     <div class="control-section align-right">
-                        <el-button  type="info" @click="onSendConnectDb">测试连接</el-button>
+                        <el-button  :type="is_connect?'success':'info'" @click="onSendConnectDb" v-text="is_connect?'连接成功':'测试连接'"></el-button>
                         <el-button type="primary" @click="onSendAnalyze">开始分析</el-button>
                     </div>
 
@@ -60,6 +68,14 @@
             <el-col :span="24">
                 <div class="execute-section clearfix">
                     <label class="label-title">SQL语句</label>
+                    <div class="plugin-wrapper" v-if="plugins.length>0">
+                        <label class="types"></label>
+                        <el-checkbox :indeterminate="isIndeterminate" v-model="check_all_plugin" @change="handleCheckAllPlugin">所有工具(默认支持Soar)</el-checkbox>
+                          <div style="margin: 15px 0;"></div>
+                          <el-checkbox-group v-model="checked_plugin" @change="handleCheckedPluginChange">
+                            <el-checkbox v-for="plugin in plugins" :label="plugin" :key="plugin">{{plugin}}</el-checkbox>
+                        </el-checkbox-group>
+                    </div>
                     <el-input type="textarea" :autosize="{ minRows: 5}" placeholder="SQL 语句" v-model="querystring" clearable>
                     </el-input>
                 </div>
@@ -68,7 +84,7 @@
                 <div class="logs">
                     <label class="label-title">分析结果</label>
                     <div class="context-wrapper">
-                        <el-button plain class="clear-btn" icon="el-icon-delete">清空屏幕</el-button>
+                        <el-button plain class="clear-btn" @click="handleClearScreen" icon="el-icon-delete">清空屏幕</el-button>
                         <div class="context">
                             <p v-for="log in logs" v-html="log"></p>
                         </div>

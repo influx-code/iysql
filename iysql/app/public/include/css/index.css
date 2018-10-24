@@ -2,7 +2,7 @@
 * @Author: Jeffery
 * @Date:   2018-10-24 12:07:46
 * @Last Modified by:   Jeffery
-* @Last Modified time: 2018-10-24 14:19:34
+* @Last Modified time: 2018-10-24 16:02:12
 */
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, textarea, select, optgroup, option, fieldset, legend, p, blockquote, th, td {
 	font-family: Arial, "Helvetica Neue", sans-serif, 宋体;
@@ -38,7 +38,9 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, text
 	border: 1px solid #eee;
 	border-top: 4px solid #C3C5C6;
 }
-
+.execute-section .plugin-wrapper{
+	margin-bottom: 5px;
+}
 .control-section {
 	padding: 10px;
 	display: block;
