@@ -2,13 +2,14 @@
  * @Author: Jeffery
  * @Date:   2018-10-24 10:58:02
  * @Last Modified by:   Jeffery
- * @Last Modified time: 2018-10-24 16:05:33
+ * @Last Modified time: 2018-10-24 16:38:09
  */
 
 new Vue({
 	el: "#app",
 	data: {
 		querystring: 'SELECT * FROM tables WHERE id=1',
+		is_connect:false,//是否已经连接DB
 		configs: {
 			host: "192.168.10.10",
 			port: 3306,
@@ -17,6 +18,7 @@ new Vue({
 			database: "mysql"
 		},
 		logs: [],
+		databases:[],
 		check_all_plugin:true,
 		plugins:[],
 		checked_plugin:[],
@@ -39,7 +41,10 @@ new Vue({
 					self.notifyMsg(res['msg'], 'error');
 					return false
 				}
-				console.log(res);
+				self.is_connect = true;
+				self.databases= res['databases'];
+				self.notifyMsg('连接成功','success');
+				self.configs['database'] = '';
 			});
 			this.socket.on('get_types.result', function(res) {
 				if (res['ret'] == -1) {
@@ -51,7 +56,7 @@ new Vue({
 			});
 		},
 		/**
-		 * 选择所有类型
+		 * 选择所有插件
 		 * @return {[type]} [description]
 		 */
 		handleCheckAllPlugin(val){
@@ -64,6 +69,11 @@ new Vue({
 	        this.check_all_plugin = checkedCount === this.plugins.length;
 	        this.isIndeterminate = checkedCount > 0 && checkedCount < this.plugins.length;
 	    },
+	    /**
+	     * 清除屏幕
+	     * @param  {[type]} type [description]
+	     * @return {[type]}      [description]
+	     */
 	    handleClearScreen(type){
 	    	this.logs=[];
 	    },
@@ -75,8 +85,6 @@ new Vue({
 			let param = this.configs;
 			this.socket.emit('fetch_database', {
 				data: param
-			}, (ack) => {
-				console.log(ack)
 			});
 		},
 		/**
@@ -91,8 +99,6 @@ new Vue({
 			this.notifyMsg('正在分析...')
 			this.socket.emit('sqladvisor', {
 				data: param
-			}, (ack) => {
-				console.log(ack)
 			});
 		},
 		notifyMsg(msg = "执行失败", type = "info") {
