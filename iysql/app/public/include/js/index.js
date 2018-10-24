@@ -2,7 +2,7 @@
  * @Author: Jeffery
  * @Date:   2018-10-24 10:58:02
  * @Last Modified by:   Jeffery
- * @Last Modified time: 2018-10-24 14:46:57
+ * @Last Modified time: 2018-10-24 15:23:06
  */
 
 new Vue({
@@ -24,10 +24,11 @@ new Vue({
             this.socket = io(host);
         },
         bindSocketEvent() {
+        	const self = this;
             this.socket.on('sqladvisor.result', function(data) {
-                console.log(data)
-                var datas = data['message'].match(/.*(` )/)
-
+               for(let type in data){
+               		self.logs.push(data[type].replace(/\n/g,'<br/>'))
+               }
             });
         },
         /**
@@ -36,7 +37,7 @@ new Vue({
          */
         onSendConnectDb() {
             let param = this.configs;
-            this.socket.emit('sqladvisor.connect', param, (ack) => {
+            this.socket.emit('sqladvisor.connect',{data:param}, (ack) => {
                 console.log(ack)
             });
         },
@@ -49,17 +50,21 @@ new Vue({
                 sql: this.querystring.replace(/\`/ig, '').replace(/\n/g, " "),
             };
             var param = Object.assign({},default_param,this.configs);
-            this.socket.emit('sqladvisor', param, (ack) => {
+            this.$notify
+            this.socket.emit('sqladvisor', {data:param}, (ack) => {
                 console.log(ack)
             });
+        },
+        notifyMsg(){
+        	this.$notify({
+	          title: '警告',
+	          message: '这是一条警告的提示消息',
+	          type: 'warning'
+	        });
         },
         initApp() {
             this.initSocket()
             this.bindSocketEvent();
-
-
-
-
         }
     },
     mounted() {
