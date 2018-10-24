@@ -31,6 +31,6 @@ def get_databases_itf(json):
 
 def handle_message(json):
     print('received message: ' , dumps(json))
-    choosed_plugins = json['data'].get('type', ['soar'])
+    choosed_plugins = json['data'].get('type', ['sqladvisor'])
     analysis_result = iysql_instance.execute_sql_analysis(choosed_plugins, json['data'])
     emit('sqladvisor.result', analysis_result)
