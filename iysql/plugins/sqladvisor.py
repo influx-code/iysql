@@ -9,7 +9,7 @@ class SQLAdvisor(Plugin):
     def _generate_conn_str(self, args):
         return ' -u {} -p {} -h {} -P {} -d {} '.format(args.get('user', self._configs.get('user')),
                                                         args.get('passowrd', self._configs.get('password')),
-                                                        args.get('ip', self._configs.get('ip')),
+                                                        args.get('host', self._configs.get('host')),
                                                         args.get('port', self._configs.get('port')),
                                                         args.get('database', self._configs.get('database')))
 
