@@ -14,8 +14,8 @@ IYSQL依赖[Soar](https://github.com/XiaoMi/soar),在使用之前您需要安装
 ##### 配置环境变量
 
 ```bash
-export soar=/root/soft/soar-master/soar #这个地址是soar的执行地址
-export sqladvisor=/root/soft/SQLAdvisor-master/sqladvisor/sqladvisor #这个地址是sqladvisor的执行地址
+export soar=/root/soft/soar-master/soar #这个路径是soar的执行路径
+export sqladvisor=/root/soft/SQLAdvisor-master/sqladvisor/sqladvisor #这个路径是sqladvisor的执行路径
 ```
 
 ##### 安装依赖
