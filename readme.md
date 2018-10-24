@@ -8,6 +8,7 @@ IYSQL - Improve Your SQL
 #### 文档
 
 [设计文档](./docs/design-arch.md)
+
 [安装](./docs/install.md)
 
 #### Demo
