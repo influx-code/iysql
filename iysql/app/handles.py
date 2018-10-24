@@ -25,7 +25,7 @@ def get_databases_itf(json):
         datas = json['data']
         databases = get_databases(datas['host'], datas['port'], datas['password'], datas['port'])
     except Exception as e:
-        emit('fetch_database.result', {'ret':-1, 'msg':'查询数据库失败'})
+        emit('fetch_database.result', {'ret':-1, 'msg':'查询数据库失败，失败原因:%s' % str(e)})
     else:
         emit('fetch_database.result', {'ret':0, 'databases':databases})
 
