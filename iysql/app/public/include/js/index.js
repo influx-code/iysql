@@ -2,7 +2,7 @@
  * @Author: Jeffery
  * @Date:   2018-10-24 10:58:02
  * @Last Modified by:   Jeffery
- * @Last Modified time: 2018-10-24 16:38:09
+ * @Last Modified time: 2018-10-24 17:08:20
  */
 
 new Vue({
@@ -83,6 +83,20 @@ new Vue({
 		 */
 		onSendConnectDb() {
 			let param = this.configs;
+			param['port'] = Number(param['port'])<=0?'':Number(param['port']);
+			if(param['host'].replace(/\s/g, "")==''){
+				this.notifyMsg("请输入主机地址",'error');
+				return false
+			}
+			if(param['port']==""){
+				this.notifyMsg("请输入主机端口",'error');
+				return false
+			}
+			if(param['user'].replace(/\s/g, "")==''){
+				this.notifyMsg("请输入数据库帐号",'error');
+				return false
+			}
+			
 			this.socket.emit('fetch_database', {
 				data: param
 			});
@@ -96,6 +110,28 @@ new Vue({
 				sql: this.querystring.replace(/\`/ig, '').replace(/\n/g, " "),
 			};
 			var param = Object.assign({}, default_param, this.configs);
+			param['port'] = Number(param['port'])<=0?'':Number(param['port']);
+
+			if(param['host'].replace(/\s/g, "")==''){
+				this.notifyMsg("请输入主机地址",'error');
+				return false
+			}
+			if(param['port']==""){
+				this.notifyMsg("请输入主机端口",'error');
+				return false
+			}
+			if(param['database'].replace(/\s/g, "")==''){
+				this.notifyMsg("数据库名无效",'error');
+				return false
+			}
+			if(param['user'].replace(/\s/g, "")==''){
+				this.notifyMsg("请输入数据库帐号",'error');
+				return false
+			}
+			if(param['sql']==''){
+				this.notifyMsg("请输入需要分析的SQL语句",'error');
+				return false
+			}
 			this.notifyMsg('正在分析...')
 			this.socket.emit('sqladvisor', {
 				data: param
@@ -109,6 +145,7 @@ new Vue({
 				type: type
 			});
 		},
+		
 		/**
 		 * 初始化插件
 		 * @return {[type]} [description]
