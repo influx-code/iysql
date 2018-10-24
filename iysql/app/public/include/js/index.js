@@ -2,7 +2,7 @@
  * @Author: Jeffery
  * @Date:   2018-10-24 10:58:02
  * @Last Modified by:   Jeffery
- * @Last Modified time: 2018-10-24 14:45:42
+ * @Last Modified time: 2018-10-24 14:46:57
  */
 
 new Vue({
@@ -36,7 +36,7 @@ new Vue({
          */
         onSendConnectDb() {
             let param = this.configs;
-            socket.emit('sqladvisor.connect', param, (ack) => {
+            this.socket.emit('sqladvisor.connect', param, (ack) => {
                 console.log(ack)
             });
         },
@@ -49,8 +49,7 @@ new Vue({
                 sql: this.querystring.replace(/\`/ig, '').replace(/\n/g, " "),
             };
             var param = Object.assign({},default_param,this.configs);
-            console.log(param)
-            socket.emit('sqladvisor', param, (ack) => {
+            this.socket.emit('sqladvisor', param, (ack) => {
                 console.log(ack)
             });
         },
