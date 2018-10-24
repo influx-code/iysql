@@ -49,8 +49,8 @@
                         </div>
                     </div>
                     <div class="control-section align-right">
-                        <el-button  type="info">测试连接</el-button>
-                        <el-button type="primary">开始分析</el-button>
+                        <el-button  type="info" @click="onSendConnectDb">测试连接</el-button>
+                        <el-button type="primary" @click="onSendAnalyze">开始分析</el-button>
                     </div>
 
                 </div>
@@ -70,32 +70,7 @@
                     <div class="context-wrapper">
                         <el-button plain class="clear-btn" icon="el-icon-delete">清空屏幕</el-button>
                         <div class="context">
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
-                            <p>egegegegerger</p>
+                            <p v-for="log in logs" v-html="log"></p>
                         </div>
                     </div>
                 </div>
