@@ -2,10 +2,10 @@
  * @Author: Jeffery
  * @Date:   2018-10-24 10:58:02
  * @Last Modified by:   Jeffery
- * @Last Modified time: 2018-10-24 17:14:52
+ * @Last Modified time: 2018-10-24 18:09:57
  */
 
-new Vue({
+var vm = new Vue({
 	el: "#app",
 	data: {
 		querystring: 'SELECT * FROM tables WHERE id=1',
@@ -17,8 +17,9 @@ new Vue({
 			password: "123456",
 			database: "mysql"
 		},
-		logs: [],
+		logs: {},//结果
 		databases: [],
+		active_analyze_tab:'',
 		check_all_plugin: true,
 		plugins: [],
 		checked_plugin: [],
@@ -32,9 +33,16 @@ new Vue({
 		bindSocketEvent() {
 			const self = this;
 			this.socket.on('sqladvisor.result', function(data) {
+				let logs = self.logs;
+				self.active_analyze_tab = ''
 				for (let type in data) {
-					self.logs.push(data[type].replace(/\n/g, '<br/>'))
+					if(self.active_analyze_tab==''){
+						Vue.set(self,'active_analyze_tab',type);
+					}
+					logs[type] = data[type].replace(/\n/g, '<br/>')
 				}
+				Vue.set(self,'logs',logs)
+				vm.$forceUpdate();
 			});
 			this.socket.on('fetch_database.result', function(res) {
 				if (res['ret'] == -1) {
@@ -75,7 +83,10 @@ new Vue({
 		 * @return {[type]}      [description]
 		 */
 		handleClearScreen(type) {
-			this.logs = [];
+			this.logs[type] = '';
+			vm.$forceUpdate();
+
+
 		},
 		/**
 		 * 绑定建立连接按钮事件
