@@ -22,7 +22,6 @@ class Soar(Plugin):
                 command_str += ' {}={} '.format(skill_name, skill_content_dict['default'])
         conn_str = self._generate_conn_str(args)
         command_str += ' -online-dsn="{}" '.format(conn_str)
-        command_str += ' --report-type=text '
         command_str += ' -query="{}" '.format(args.get('sql'))
         return command_str
 

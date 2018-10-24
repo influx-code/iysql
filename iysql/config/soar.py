@@ -5,5 +5,10 @@ soar_configs = {
     'host': '127.0.0.1',
     'port': 3306,
     'database': 'blog',
-    'skills': {}
+    'skills': {
+    	"report-type":{
+    		"type" : 1,
+    		"default" : "text"
+    	}
+    }
 }
