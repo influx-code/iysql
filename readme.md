@@ -15,7 +15,6 @@ IYSQL - Improve Your SQL
 
 ![demo](./docs/images/demo.png)
 
-
 ### 依赖
 
 - [Vue](http://vuejs.org)
