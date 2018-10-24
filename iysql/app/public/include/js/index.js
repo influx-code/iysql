@@ -2,7 +2,7 @@
  * @Author: Jeffery
  * @Date:   2018-10-24 10:58:02
  * @Last Modified by:   Jeffery
- * @Last Modified time: 2018-10-24 15:24:49
+ * @Last Modified time: 2018-10-24 15:43:45
  */
 
 new Vue({
@@ -30,6 +30,9 @@ new Vue({
                		self.logs.push(data[type].replace(/\n/g,'<br/>'))
                }
             });
+            this.socket.on('fetch_database.result', function(data) {
+               console.log(data)
+            });
         },
         /**
          * 绑定建立连接按钮事件
@@ -37,7 +40,7 @@ new Vue({
          */
         onSendConnectDb() {
             let param = this.configs;
-            this.socket.emit('sqladvisor.connect',{data:param}, (ack) => {
+            this.socket.emit('fetch_database',{data:param}, (ack) => {
                 console.log(ack)
             });
         },
