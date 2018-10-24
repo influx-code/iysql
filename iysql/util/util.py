@@ -7,8 +7,8 @@ def execute_commond_get_stdout(commond):
     p = Popen(commond_list, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
     if p.returncode !=0:
-        return stderr.decode()
-    return stdout.decode()
+        return stderr.decode(errors='ignore')
+    return stdout.decode(errors='ignore')
 
 def get_databases(host, port, user, password):
     connection = pymysql.connect(host=host,
