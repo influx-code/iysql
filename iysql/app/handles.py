@@ -8,8 +8,8 @@ iysql = Blueprint('iysql', __name__)
 iysql_instance = IYSQL()
 
 @iysql.route('/', methods=['GET'])
-def hello():
-    return 'hello'
+def main():
+    return send_from_directory('public', 'index.html')
 
 @iysql.route('/public/<path:path>', methods=['GET'])
 def index(path):
