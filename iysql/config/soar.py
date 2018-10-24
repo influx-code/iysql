@@ -20,10 +20,10 @@ soar_configs = {
             "type" : 1,
             "default": "true"
         },
-        "-trace":{
-            "type" : 1,
-            "default": "true"
-        },
+        # "-trace":{
+        #     "type" : 1,
+        #     "default": "true"
+        # },
         "-verbose":{
             "type" : 1,
             "default": "true"
