@@ -43,4 +43,4 @@ yum install python3-pip python3
 
 ```
 
-打开[http://localhost:5000/public/index.html](http://localhost:5000/public/index.html)
+打开[http://localhost:5000](http://localhost:5000)
