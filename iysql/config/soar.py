@@ -1,3 +1,5 @@
+from os import environ
+
 soar_configs = {
     'execuable_path': 'soar',
     'user': 'root',
