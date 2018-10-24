@@ -21,6 +21,9 @@ class IYSQL:
             if plugin_instance is None:
                 raise TypeError('unsupported plugin')
             commond = plugin_instance.generate_query_commond(args)
-            stdout = plugin_instance.execute_commond(commond)
+            try:
+                stdout = plugin_instance.execute_commond(commond)
+            except Exception as e:
+                stdout = '执行命令出错：%s' % str(e)
             result[plugin_name] = stdout
         return result

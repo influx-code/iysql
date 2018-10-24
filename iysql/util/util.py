@@ -1,10 +1,14 @@
-from os import popen
+from subprocess import Popen, PIPE
 import pymysql.cursors
+from shlex import split
 
 def execute_commond_get_stdout(commond):
-    r = popen(commond)
-    lines = r.readlines()
-    return ''.join(lines)
+    commond_list = split(commond)
+    p = Popen(commond_list, stdout=PIPE, stderr=PIPE)
+    stdout, stderr = p.communicate()
+    if p.returncode !=0:
+        return stderr.decode()
+    return stdout.decode()
 
 def get_databases(host, port, user, password):
     connection = pymysql.connect(host=host,
