@@ -2,7 +2,7 @@
  * @Author: Jeffery
  * @Date:   2018-10-24 10:58:02
  * @Last Modified by:   Jeffery
- * @Last Modified time: 2018-10-24 15:48:26
+ * @Last Modified time: 2018-10-24 16:05:33
  */
 
 new Vue({
@@ -17,6 +17,10 @@ new Vue({
 			database: "mysql"
 		},
 		logs: [],
+		check_all_plugin:true,
+		plugins:[],
+		checked_plugin:[],
+		isIndeterminate: false,
 	},
 	methods: {
 		initSocket() {
@@ -37,7 +41,32 @@ new Vue({
 				}
 				console.log(res);
 			});
+			this.socket.on('get_types.result', function(res) {
+				if (res['ret'] == -1) {
+					self.notifyMsg(res['msg'], 'error');
+					return false
+				}
+				self.plugins = res['types'];
+				self.checked_plugin = res['types'];
+			});
 		},
+		/**
+		 * 选择所有类型
+		 * @return {[type]} [description]
+		 */
+		handleCheckAllPlugin(val){
+			const self = this;
+			this.checked_plugin = val ? this.plugins : [];
+        	this.isIndeterminate = false;
+		},
+		handleCheckedPluginChange(value) {
+	        let checkedCount = value.length;
+	        this.check_all_plugin = checkedCount === this.plugins.length;
+	        this.isIndeterminate = checkedCount > 0 && checkedCount < this.plugins.length;
+	    },
+	    handleClearScreen(type){
+	    	this.logs=[];
+	    },
 		/**
 		 * 绑定建立连接按钮事件
 		 * @return {[type]} [description]
@@ -70,11 +99,21 @@ new Vue({
 			this.$notify({
 				title: '提示',
 				message: msg,
+				duration:1000,
 				type: type
 			});
 		},
+		/**
+		 * 初始化插件
+		 * @return {[type]} [description]
+		 */
+		initPlugin(){
+			const self = this;
+			this.socket.emit('get_types',{},function(){})
+		},
 		initApp() {
-			this.initSocket()
+			this.initSocket();
+			this.initPlugin();
 			this.bindSocketEvent();
 		}
 	},
