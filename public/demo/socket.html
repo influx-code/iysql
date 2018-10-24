@@ -1,0 +1,212 @@
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>SQL advisor</title>
+    <script src="//cdn.bootcss.com/socket.io/2.0.3/socket.io.js"></script>
+    <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link href="//cdn.bootcss.com/bulma/0.6.0/css/bulma.min.css" rel="stylesheet">
+    <style type="text/css">
+    	.wrapper{
+    		padding: 20px;
+    		margin-top: 20px;
+    	}
+        .wrapper .tips{
+            margin-bottom:20px;
+        }
+        .wrapper .tips .options{
+            font-size: 18px;
+
+        }
+        .btn{
+            background: #ffffff;
+            color: #00d6b2;
+            width: 300px;
+            border: 1px solid #00d6b2;
+            font-size: 18px;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 3px;
+            line-height: 36px;
+            padding: 0 30px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition-property: all;
+            transition-property: all;
+            -webkit-transition-duration: .3s;
+            transition-duration: .3s;
+             width: 100%;
+            margin: 0 auto;
+            display:inline-block;
+            text-align: center;
+        }
+        .btn:hover,.btn:focus,.btn:active{
+            opacity: .9;
+            cursor:pointer;
+            border: 1px solid #ffffff;
+            outline: 0;
+            background: #00d6b2;
+            color: #ffffff;
+        }
+        .analysis-result{
+            display: block;
+             border: 1px solid #ccc;
+             border-top: 10px solid #ccc;
+             padding: 10px;
+             min-height: 400px;
+             border-top-right-radius: 3px;
+             border-top-left-radius: 3px;
+             overflow-y: auto;
+             max-height: 400px;
+        }
+        .analysis-result p{
+        	margin-bottom: 20px;
+        	display:block;
+        }
+
+        .reference{
+            margin-top: 20px;
+            padding: 20px;
+        }
+        .reference ol{
+            margin-left: 20px;
+        }
+        .reference .title{
+            display: flex;
+            width: 100%;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    
+
+    
+    <div class="wrapper">
+        <div class="tips">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">
+                  关于SQL advisor 
+                </p>
+                <a href="#" class="card-header-icon js-more options">
+                  +
+                </a>
+              </header>
+              <div class="card-content js-tips-content" style="display: none;">
+                <div class="content">
+                   顾名思义，SQLAdvisor是一个SQL查询优化工具，它可以根据当前你的数据表结构与索引设计进行SQL查询语句的分析，最终给出一些优化建议。<br>
+                   使用方式：选择SQL执行的数据库，复制SQL到下面的<strong>SQL语句</strong>输入框，点击<strong>开始分析</strong>即可。
+                </div>
+              </div>
+
+            </div>
+        </div>
+    	<div class="field">
+		  <label class="label">数据库选择</label>
+		  <div class="control">
+		    <div class="select is-fullwidth">
+		      <select id="database">
+		        <option value="puzzle">puzzle</option>
+		        <option value="open001">open001</option>
+		        <option value="wms001">wms001</option>
+		        <option value="owdile001">owdile001</option>
+		      </select>
+		    </div>
+		  </div>
+		</div>
+
+		<div class="field">
+		  <label class="label">SQL语句</label>
+		  <div class="control">
+		    <textarea class="textarea" id="sql" placeholder="SQL 语句"></textarea>
+		  </div>
+		</div>
+
+
+		<div class="field is-grouped">
+		  <div class="control">
+		  	<button type="button" class="btn" id="send-sql">开始分析</button>
+		    
+		  </div>
+		  <div class="control">
+		  	<button class="button" id="clean-sql">清空SQL</button>
+		  </div>
+		  <div class="control">
+		  	<button class="button" id="clean-result">清空结果</button>
+		  </div>
+		</div>
+		<div class="analysis-result">
+			
+		</div>
+        <div class="box reference">
+            <label class="title">参考文献</label>
+            <article class="media">
+                
+                 <ol>
+                <li><a href="https://tech.meituan.com/sqladvisor_pr.html" target="_blank">美团点评SQL优化工具SQLAdvisor开源</a></li>
+
+                <li><a href="https://github.com/Meituan-Dianping/SQLAdvisor/blob/master/doc/QUICK_START.md">SQLAdvisor快速入门教程</a>.</li>
+                <li><a href="https://github.com/Meituan-Dianping/SQLAdvisor/blob/master/doc/THEORY_PRACTICES.md">SQLAdvisor原理和架构</a>.</li>
+                <li><a href="https://github.com/Meituan-Dianping/SQLAdvisor/blob/master/doc/RELEASE_NOTES.md">SQLAdvisor release notes</a>.</li>
+                <li><a href="https://github.com/Meituan-Dianping/SQLAdvisor/blob/master/doc/DEVELOPMENT_NORM.md">SQLAdvisor开发规范</a>.</li>
+                <li><a href="https://github.com/Meituan-Dianping/SQLAdvisor/blob/master/doc/FAQ.md">SQLAdvisor FAQ</a>.</li>
+            </ol>
+            </article>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+	var host = location['protocol']+'//'+location['host'];
+    var socket = io(host);
+
+    $("#send-sql").click(function(){
+    	var sql = $('#sql').val();
+    	// var database = $('#database option:selected').val();
+    	// if(sql.length==0){
+    	// 	alert('请输入SQL');
+    	// 	return false;
+    	// }
+    	var data = {
+    		sql:sql.replace(/\`/ig,'').replace(/\n/g," "),
+    		// database:database
+    	}
+    	socket.emit('sqladvisor', { data: data });
+    });
+    $("#clean-sql").click(function(){
+    	$("#sql").val('');
+    })
+    $('#clean-result').click(function(){
+    	$(".analysis-result").html('');
+    })
+    //提示板
+    $('.js-more').click(function(e){
+        var $elem = $(this);
+        if($elem.hasClass('active')){
+            $(".js-tips-content").slideUp();
+            $elem.removeClass('active');
+            $elem.html('-');
+        }else{
+            $(".js-tips-content").slideDown();
+            $elem.addClass('active');
+            $elem.html('+');
+        }
+        e.stopPropagation();
+        e.preventDefault();
+    });
+    $('.card-header').click(function(e){
+        $('.js-more').trigger('click');
+    })
+	socket.on('result', function (data) {
+		var $result = $(".analysis-result");
+		var datas = data['message'].match(/.*(` )/)
+	    $result.append('<p>'+data['message']+'</p>');
+	});
+
+</script>
+</html>
