@@ -83,12 +83,17 @@
             <el-col :span="24">
                 <div class="logs">
                     <label class="label-title">分析结果</label>
-                    <div class="context-wrapper">
-                        <el-button plain class="clear-btn" @click="handleClearScreen" icon="el-icon-delete">清空屏幕</el-button>
-                        <div class="context">
-                            <p v-for="log in logs" v-html="log"></p>
-                        </div>
-                    </div>
+                   
+                    <el-tabs  v-model="active_analyze_tab">
+                        <el-tab-pane :label="plugin" :name="plugin" v-for="(log,plugin) in logs">
+                            <div class="context-wrapper">
+                                <el-button plain class="clear-btn" @click="handleClearScreen(plugin)" icon="el-icon-delete">清空屏幕</el-button>
+                                <div class="context">
+                                    <p v-html="log"></p>
+                                </div>
+                            </div>     
+                        </el-tab-pane>
+                    </el-tabs>
                 </div>
             </el-col>
         </el-row>

@@ -2,7 +2,7 @@
 * @Author: Jeffery
 * @Date:   2018-10-24 12:07:46
 * @Last Modified by:   Jeffery
-* @Last Modified time: 2018-10-24 16:02:12
+* @Last Modified time: 2018-10-24 17:22:39
 */
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, textarea, select, optgroup, option, fieldset, legend, p, blockquote, th, td {
 	font-family: Arial, "Helvetica Neue", sans-serif, 宋体;
@@ -104,7 +104,6 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, text
 	color: #fff;
 	min-height: 350px;
 	max-height: 400px;
-	margin-top: 20px;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
@@ -112,6 +111,7 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, text
 .logs .context-wrapper .context {
 	line-height: 1.2;
 	color: #fff;
+	margin-top: 10px;
 }
 
 .logs .context-wrapper::-webkit-scrollbar {
@@ -130,7 +130,7 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, text
 .footer {
     background-color: #16111c;
     padding: 50px 40px;
-    margin-top:50px;
+    margin-top: 60px;
 }
 .footer .copyright {
     color: #675f76;
@@ -162,7 +162,7 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, text
     font-size: 16px;
     font-weight: 400;
     text-decoration: none;
-        -webkit-transition: opacity 0.2s, color 0.2s;
+    -webkit-transition: opacity 0.2s, color 0.2s;
     transition: opacity 0.2s, color 0.2s;
 }
 .footer ul a:hover{
