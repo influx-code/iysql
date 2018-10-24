@@ -5,7 +5,7 @@ from flask_socketio import SocketIO
 socketIO = SocketIO()
 
 def create_app(config='default'):
-    app = Flask(__name__)
+    app = Flask(__name__, static_url_path='')
     app.config.from_object(configs[config])
 
     from .handles import iysql
