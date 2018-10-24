@@ -2,7 +2,7 @@
  * @Author: Jeffery
  * @Date:   2018-10-24 10:58:02
  * @Last Modified by:   Jeffery
- * @Last Modified time: 2018-10-24 15:23:06
+ * @Last Modified time: 2018-10-24 15:24:49
  */
 
 new Vue({
@@ -50,16 +50,16 @@ new Vue({
                 sql: this.querystring.replace(/\`/ig, '').replace(/\n/g, " "),
             };
             var param = Object.assign({},default_param,this.configs);
-            this.$notify
+            this.notifyMsg('正在分析...')
             this.socket.emit('sqladvisor', {data:param}, (ack) => {
                 console.log(ack)
             });
         },
-        notifyMsg(){
+        notifyMsg(msg="执行失败",type="info"){
         	this.$notify({
-	          title: '警告',
-	          message: '这是一条警告的提示消息',
-	          type: 'warning'
+	          title: '提示',
+	          message: msg,
+	          type: type
 	        });
         },
         initApp() {
