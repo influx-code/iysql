@@ -2,8 +2,173 @@
 * @Author: Jeffery
 * @Date:   2018-10-24 12:07:46
 * @Last Modified by:   Jeffery
-* @Last Modified time: 2018-10-24 12:08:06
+* @Last Modified time: 2018-10-24 14:19:34
 */
-.configs .el-input{
-	margin-bottom: 15px;
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, textarea, select, optgroup, option, fieldset, legend, p, blockquote, th, td {
+	font-family: Arial, "Helvetica Neue", sans-serif, 宋体;
+	font-size: 13px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.clearfix:after {
+	content: "";
+	clear: both;
+	display: block;
+}
+
+.align-right {
+	float: right;
+}
+.container{
+	padding: 20px 0;
+    margin: 0 20px;
+}
+.configs, .wrapper-section {
+	padding: 10px 10px 0 10px;
+	border-radius: 5px;
+	border: 1px solid #eee;
+	border-top: 4px solid #409EFF;
+}
+
+.execute-section {
+	padding: 10px;
+	margin: 10px 0;
+	border-radius: 5px;
+	border: 1px solid #eee;
+	border-top: 4px solid #C3C5C6;
+}
+
+.control-section {
+	padding: 10px;
+	display: block;
+}
+.control-section .el-button{
+	margin-left: 5px;
+}
+.configs .label-title, .label-title {
+	font-size: 24px;
+	display: block;
+	margin-bottom: 10px;
+}
+
+.configs .input-wrapper {
+	margin-bottom: 10px;
+}
+
+.configs .input-wrapper .label {
+	margin-bottom: 5px;
+	display: block;
+}
+
+.configs .inline-wrapper {
+	display: flex;
+	align-items: space-around;
+	justify-content: space-between;
+}
+
+.configs .inline-wrapper .input-wrapper {
+	margin-right: 5px;
+	width: 33%;
+}
+
+.configs .el-select {
+	width: 100%;
+}
+
+/*result*/
+.logs {
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #eee;
+	border-top: 4px solid #C3C5C6;
+	display: block;
+	position: relative;
+	overflow: hidden;
+}
+
+.logs .clear-btn {
+	position: sticky;
+	border: none;
+	top: 0;
+	left: 0;
+	border-radius: 0;
+	padding: 10px 20px;
+}
+
+.logs .context-wrapper {
+	padding: 5px;
+	background: #000;
+	color: #fff;
+	min-height: 350px;
+	max-height: 400px;
+	margin-top: 20px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.logs .context-wrapper .context {
+	line-height: 1.2;
+	color: #fff;
+}
+
+.logs .context-wrapper::-webkit-scrollbar {
+	width: 5px;
+}
+
+.logs .context-wrapper::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.logs .context-wrapper::-webkit-scrollbar-thumb {
+	background-color: #2f3f5f;
+	outline: 1px solid slategrey;
+}
+
+.footer {
+    background-color: #16111c;
+    padding: 50px 40px;
+    margin-top:50px;
+}
+.footer .copyright {
+    color: #675f76;
+    letter-spacing: 0.5px;
+    line-height: 24px;
+}
+.footer .social-logos {
+    overflow: hidden;
+}
+.footer .list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+.footer .border-dark{
+    border-top: 1px solid #342c3e;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    background: none;
+    opacity: 0.3;
+}
+.footer .social-logos li {
+    float: left;
+    line-height: 1;
+}
+
+.footer ul a {
+    color: #b9b2d0;
+    opacity: 0.7;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
+        -webkit-transition: opacity 0.2s, color 0.2s;
+    transition: opacity 0.2s, color 0.2s;
+}
+.footer ul a:hover{
+    opacity: 1;
+
+}
+.footer .social-logos svg {
+    position: relative;
+    vertical-align: baseline;
+    top: 1px;
 }
