@@ -1,6 +1,6 @@
 from flask import Blueprint, send_from_directory
 from json import dumps, loads
-from flask_socketio import send
+from flask_socketio import emit
 from .iysql import IYSQL
 
 iysql = Blueprint('iysql', __name__)
@@ -18,4 +18,5 @@ def handle_message(json):
     print('received message: ' , dumps(json))
     choosed_plugins = ['soar']
     sql = json['data']['sql']
-    send(iysql_instance.execute_sql_analysis(choosed_plugins, {'sql': sql}))
+    analysis_result = iysql_instance.execute_sql_analysis(choosed_plugins, {'sql': sql})
+    emit('sqladvisor.result', analysis_result)
