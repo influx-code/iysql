@@ -1,6 +1,7 @@
 from flask import Blueprint, send_from_directory
 from json import dumps, loads
 from flask_socketio import emit
+from util import get_databases
 from .iysql import IYSQL
 
 iysql = Blueprint('iysql', __name__)
@@ -14,9 +15,22 @@ def hello():
 def index(path):
     return send_from_directory('public', path)
 
+def get_types(json):
+    types = iysql_instance.get_plugins()
+    emit('get_types.result', {'ret':0, 'types':types})
+
+def get_databases_itf(json):
+    print('received message: ', dumps(json))
+    try:
+        datas = json['data']
+        databases = get_databases(datas['host'], datas['port'], datas['password'], datas['port'])
+    except Exception as e:
+        emit('fetch_database.result', {'ret':-1, 'msg':'查询数据库失败'})
+    else:
+        emit('fetch_database.result', {'ret':0, 'databases':databases})
+
 def handle_message(json):
     print('received message: ' , dumps(json))
-    choosed_plugins = ['soar']
-    sql = json['data']['sql']
-    analysis_result = iysql_instance.execute_sql_analysis(choosed_plugins, {'sql': sql})
+    choosed_plugins = json['data']['type']
+    analysis_result = iysql_instance.execute_sql_analysis(choosed_plugins, json['data'])
     emit('sqladvisor.result', analysis_result)
