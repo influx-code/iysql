@@ -7,9 +7,9 @@ IYSQL - Improve Your SQL
 
 ### 文档
 
-- [设计文档](./docs/design-arch.md)
+- [设计文档](https://github.com/influx-code/iysql/blob/master/docs/install.md)
 
-- [安装](./docs/install.md)
+- [安装](https://github.com/influx-code/iysql/blob/master/docs/install.md)
 
 ### Demo
 
