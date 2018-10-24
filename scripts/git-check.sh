@@ -8,5 +8,5 @@ echo '清理.DS_Store文件'
 find $app -name ".DS_Store" -print0 | xargs -0 rm -rf  
 git add $app
 echo 'git commit'
-git commit -m $1
+eval "git commit -m '${1}'"
 git pull
