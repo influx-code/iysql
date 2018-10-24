@@ -1,5 +1,5 @@
 soar_configs = {
-    'execuable_path': 'soar',
+    'execuable_path': '/root/soft/soar-master/soar',
     'user': 'root',
     'password': 'root',
     'host': '127.0.0.1',
