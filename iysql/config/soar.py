@@ -1,7 +1,7 @@
 from os import environ
 
 soar_configs = {
-    'execuable_path': 'soar',
+    'execuable_path': environ.get('soar', 'soar'),
     'user': 'root',
     'password': '123456',
     'host': '127.0.0.1',
