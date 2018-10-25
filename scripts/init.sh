@@ -1,16 +1,18 @@
 #!/bin/bash
 set -eu
 
-echo 'check install env'
+echo 'Check install environment'
 
-if [[ -z ${soar+x} ]]; then 
-	echo "请配置soar的环境变量:export soar=/usr/bin/soar";
-else 
-	echo "soar is set to '$soar'"; 
-	app='.'
-	echo -e '\033[33mstart git push check\033[0m'
-	pip3 install -r requirments.txt
-fi
+NEEDED_COMMANDS="soar"
 
-
-
+for cmd in ${NEEDED_COMMANDS} ; do
+	if ! command -v "${cmd}" &> /dev/null ; then
+		echo -e "\033[91m${cmd} is not set\033[0m"
+		exit 1
+	else
+		echo "${cmd} found"
+		app='.'
+		echo -e '\033[33mstart git push check\033[0m'
+		pip3 install -r requirments.txt
+	fi
+done
