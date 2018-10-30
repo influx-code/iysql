@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>SQL advisor</title>
+    <script src="/include/libs/vue.min.js"></script>
+    <script src="/include/libs/socket.io.js"></script>
+    <script src="/include/libs/element.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/element-ui/2.4.7/theme-chalk/index.css" rel="stylesheet">
+    <link href="/include/css/index.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper" id="app">
+        <div class="container">
+            <el-row>
+            <el-col :span="24">
+                <div class="configs clearfix">
+                    <label class="label-title">配置信息</label>
+                    <div class="input-wrapper">
+                        <label class="label">服务器地址:</label>
+                        <el-input placeholder="服务器地址" v-model="configs['host']" clearable>
+                        </el-input>
+                    </div>
+                    <div class="input-wrapper">
+                        <label class="label">数据库:</label>
+                        <el-input placeholder="数据库" v-if="databases.length==0" v-model="configs['database']" clearable>
+                        </el-input>
+                        <el-select v-model="configs['database']"  filterable clearable placeholder="请选择数据库" v-else>
+                            <el-option
+                              v-for="item in databases"
+                              :key="item"
+                              :label="item"
+                              :value="item">
+                            </el-option>
+                          </el-select>
+                    </div>
+                    <div class="inline-wrapper">
+                        <div class="input-wrapper">
+                            <label class="label">用户:</label>
+                            <el-input placeholder="用户" v-model="configs['user']" clearable>
+                            </el-input>
+                        </div>
+                        <div class="input-wrapper">
+                            <label class="label">密码:</label>
+                            <el-input placeholder="密码" v-model="configs['password']" clearable>
+                            </el-input>
+                        </div>
+                        <div class="input-wrapper">
+                            <label class="label">端口:</label>
+                            <el-input placeholder="端口" v-model="configs['port']" clearable>
+                            </el-input>
+                        </div>
+                    </div>
+                    <div class="control-section align-right">
+                        <el-button  :type="is_connect?'success':'info'" @click="onSendConnectDb" v-text="is_connect?'连接成功':'测试连接'"></el-button>
+                        <el-button type="primary" @click="onSendAnalyze">开始分析</el-button>
+                    </div>
+
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="24">
+                <div class="execute-section clearfix">
+                    <label class="label-title">SQL语句</label>
+                    <div class="plugin-wrapper" v-if="plugins.length>0">
+                        <label class="types"></label>
+                        <el-checkbox :indeterminate="isIndeterminate" v-model="check_all_plugin" @change="handleCheckAllPlugin">所有工具(默认选择Soar)</el-checkbox>
+                          <div style="margin: 15px 0;"></div>
+                          <el-checkbox-group v-model="checked_plugin" @change="handleCheckedPluginChange">
+                            <el-checkbox v-for="plugin in plugins" :label="plugin" :key="plugin">{{plugin}}</el-checkbox>
+                        </el-checkbox-group>
+                    </div>
+                    <el-input type="textarea" :autosize="{ minRows: 5}" placeholder="SQL 语句" v-model="querystring" clearable>
+                    </el-input>
+                </div>
+            </el-col>
+            <el-col :span="24">
+                <div class="logs">
+                    <label class="label-title">分析结果</label>
+                   
+                    <el-tabs  v-model="active_analyze_tab">
+                        <el-tab-pane :label="plugin" :name="plugin" v-for="(log,plugin) in logs">
+                            <div class="context-wrapper">
+                                <el-button plain class="clear-btn" @click="handleClearScreen(plugin)" icon="el-icon-delete">清空屏幕</el-button>
+                                <div class="context">
+                                    <p v-html="log"></p>
+                                </div>
+                            </div>     
+                        </el-tab-pane>
+                    </el-tabs>
+                </div>
+            </el-col>
+        </el-row>
+        </div>
+        <el-row>
+            <footer class="footer">
+                <ul class="list-unstyled social-logos">
+                    <li class="mr-4">
+                        <a href="https://github.com/influx-code/iysql">
+                          <svg aria-hidden="true" class="icon icon-github-logo" role="icon" width="16" height="16" viewBox="0 0 16 16" version="1.1">
+                              <path d="M8,0.2A8,8,0,0,0,5.47,15.79,0.4,0.4,0,0,0,6,15.4c0-.19,0-0.69,0-1.36C3.78,14.53,3.31,13,3.31,13a2.12,2.12,0,0,0-.89-1.17c-0.73-.5.05-0.49,0.05-0.49a1.68,1.68,0,0,1,1.23.82A1.7,1.7,0,0,0,6,12.8a1.71,1.71,0,0,1,.51-1.07c-1.78-.2-3.64-0.89-3.64-4a3.09,3.09,0,0,1,.82-2.15A2.88,2.88,0,0,1,3.8,3.52S4.47,3.3,6,4.34a7.58,7.58,0,0,1,4,0c1.53-1,2.2-.82,2.2-0.82a2.87,2.87,0,0,1,.08,2.12,3.09,3.09,0,0,1,.82,2.15c0,3.07-1.87,3.75-3.65,3.95A1.91,1.91,0,0,1,10,13.21c0,1.07,0,1.93,0,2.19a0.4,0.4,0,0,0,.55.38A8,8,0,0,0,8,.2Z" fill="currentColor"></path>
+                            </svg>
+                          GitHub
+                        </a>
+                    </li>
+                </ul>
+                <hr class="border-dark">
+                <div class="copyright">
+                    © 2018 • IYSQL - Improve you SQL.
+                </div>
+            </footer>
+        </el-row>
+    </div>
+</body>
+<script type="text/javascript" src="/include/js/index.js"></script>
+
+</html>
