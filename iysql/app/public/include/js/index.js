@@ -1,8 +1,5 @@
 /*
- * @Author: Jeffery
- * @Date:   2018-10-24 10:58:02
- * @Last Modified by:   Jeffery
- * @Last Modified time: 2018-10-31 14:49:10
+ * 主逻辑
  */
 var storage= {
 	set(key, value) {
