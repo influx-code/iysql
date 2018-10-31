@@ -24,6 +24,7 @@ func getTypes(so socketio.Socket) {
 		Types: []string{"soar", "SQLAdvisor"},
 	}
 
+	log.Println(types)
 	so.Emit("get_types.result", types)
 }
 
@@ -34,4 +35,8 @@ func getSQLAdvisor(so socketio.Socket) {
 	pluginResultMap["SQLAdvisor"] = "this is a test sql"
 
 	so.Emit("sqladvisor.result", pluginResultMap)
+}
+
+func fetchDatabases(so socketio.Socket) {
+
 }
