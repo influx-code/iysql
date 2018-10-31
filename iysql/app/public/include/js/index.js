@@ -21,7 +21,7 @@ var vm = new Vue({
 	data: {
 		querystring: 'SELECT * FROM tables WHERE id=1',
 		is_connect: false, //是否已经连接DB
-		is_remember: false, //是否记住连接信息
+		is_remember: storage.get('is_remember')===null?false:storage.get('is_remember'), //是否记住连接信息
 		configs: {
 			host: "127.0.0.1",
 			port: 3306,
@@ -201,7 +201,10 @@ var vm = new Vue({
 				}
 				return true;
 			};
-			this.configs = storage.get('configs');
+			let configs = storage.get('configs');
+			if(configs){
+				this.configs = configs;
+			}
 		},
 		initApp() {
 			this.initSocket();
