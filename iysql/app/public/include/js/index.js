@@ -1,7 +1,7 @@
 /*
  * 主逻辑
  */
-var storage= {
+var storage = {
 	set(key, value) {
 		window.localStorage.setItem(key, JSON.stringify(value));
 		return true;
@@ -11,17 +11,17 @@ var storage= {
 		return value ? JSON.parse(value) : null;
 	},
 	remove: function(key) {
-        var _self = this;
-        if (key) window.localStorage.removeItem(key);
-        return true;
-    },
+		var _self = this;
+		if (key) window.localStorage.removeItem(key);
+		return true;
+	},
 };
 var vm = new Vue({
 	el: "#app",
 	data: {
 		querystring: 'SELECT * FROM tables WHERE id=1',
 		is_connect: false, //是否已经连接DB
-		is_remember: false, //是否记住连接信息
+		is_remember: storage.get('configs') === null ? false : true, //是否记住连接信息
 		configs: {
 			host: "127.0.0.1",
 			port: 3306,
@@ -88,7 +88,7 @@ var vm = new Vue({
 		/**记住帐号**/
 		handleCheckRemember(val) {
 			this.is_remember = val;
-			if(!val) storage.remove('configs');
+			if (!val) storage.remove('configs');
 			storage.set('is_remember', val);
 		},
 		handleCheckedPluginChange(value) {
@@ -126,7 +126,7 @@ var vm = new Vue({
 			}
 			this.is_connect = false;
 
-			this.is_remember&&storage.set('configs',param);
+			this.is_remember && storage.set('configs', param);
 			this.socket.emit('fetch_database', {
 				data: param
 			});
@@ -189,9 +189,8 @@ var vm = new Vue({
 		 * @return {[type]} [description]
 		 */
 		initConnectConfigs() {
-			let is_remember = storage.get('is_remember');
-			this.is_remember = is_remember;
-			if (!is_remember) {
+			let configs = storage.get('configs');
+			if (!configs) {
 				this.configs = {
 					host: "127.0.0.1",
 					port: 3306,
@@ -201,10 +200,8 @@ var vm = new Vue({
 				}
 				return true;
 			};
-			let configs = storage.get('configs');
-			if(configs){
-				this.configs = configs;
-			}
+			this.configs = configs;
+			
 		},
 		initApp() {
 			this.initSocket();
