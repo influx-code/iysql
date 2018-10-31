@@ -201,7 +201,10 @@ var vm = new Vue({
 				}
 				return true;
 			};
-			this.configs = storage.get('configs');
+			let configs = storage.get('configs');
+			if(configs){
+				this.configs = configs;
+			}
 		},
 		initApp() {
 			this.initSocket();
