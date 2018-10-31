@@ -89,7 +89,6 @@ var vm = new Vue({
 		handleCheckRemember(val) {
 			this.is_remember = val;
 			if (!val) storage.remove('configs');
-			storage.set('is_remember', val);
 		},
 		handleCheckedPluginChange(value) {
 			let checkedCount = value.length;
