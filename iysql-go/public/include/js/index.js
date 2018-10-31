@@ -1,30 +1,43 @@
 /*
- * @Author: Jeffery
- * @Date:   2018-10-24 10:58:02
- * @Last Modified by:   Jeffery
- * @Last Modified time: 2018-10-24 18:09:57
+ * 主逻辑
  */
-
+var storage= {
+	set(key, value) {
+		window.localStorage.setItem(key, JSON.stringify(value));
+		return true;
+	},
+	get(key) {
+		var value = window.localStorage.getItem(key);
+		return value ? JSON.parse(value) : null;
+	},
+	remove: function(key) {
+        var _self = this;
+        if (key) window.localStorage.removeItem(key);
+        return true;
+    },
+};
 var vm = new Vue({
 	el: "#app",
 	data: {
 		querystring: 'SELECT * FROM tables WHERE id=1',
 		is_connect: false, //是否已经连接DB
+		is_remember: false, //是否记住连接信息
 		configs: {
-			host: "192.168.10.10",
+			host: "127.0.0.1",
 			port: 3306,
 			user: "root",
 			password: "123456",
 			database: "mysql"
 		},
-		logs: {},//结果
+		logs: {}, //结果
 		databases: [],
-		active_analyze_tab:'',
+		active_analyze_tab: '',
 		check_all_plugin: true,
 		plugins: [],
 		checked_plugin: [],
 		isIndeterminate: false,
 	},
+
 	methods: {
 		initSocket() {
 			var host = location['protocol'] + '//' + location['host'];
@@ -36,12 +49,12 @@ var vm = new Vue({
 				let logs = self.logs;
 				self.active_analyze_tab = ''
 				for (let type in data) {
-					if(self.active_analyze_tab==''){
-						Vue.set(self,'active_analyze_tab',type);
+					if (self.active_analyze_tab == '') {
+						Vue.set(self, 'active_analyze_tab', type);
 					}
 					logs[type] = data[type].replace(/\n/g, '<br/>')
 				}
-				Vue.set(self,'logs',logs)
+				Vue.set(self, 'logs', logs)
 				vm.$forceUpdate();
 			});
 			this.socket.on('fetch_database.result', function(res) {
@@ -72,6 +85,12 @@ var vm = new Vue({
 			this.checked_plugin = val ? this.plugins : [];
 			this.isIndeterminate = false;
 		},
+		/**记住帐号**/
+		handleCheckRemember(val) {
+			this.is_remember = val;
+			if(!val) storage.remove('configs');
+			storage.set('is_remember', val);
+		},
 		handleCheckedPluginChange(value) {
 			let checkedCount = value.length;
 			this.check_all_plugin = checkedCount === this.plugins.length;
@@ -85,8 +104,6 @@ var vm = new Vue({
 		handleClearScreen(type) {
 			this.logs[type] = '';
 			vm.$forceUpdate();
-
-
 		},
 		/**
 		 * 绑定建立连接按钮事件
@@ -108,6 +125,8 @@ var vm = new Vue({
 				return false
 			}
 			this.is_connect = false;
+
+			this.is_remember&&storage.set('configs',param);
 			this.socket.emit('fetch_database', {
 				data: param
 			});
@@ -157,7 +176,6 @@ var vm = new Vue({
 				type: type
 			});
 		},
-
 		/**
 		 * 初始化插件
 		 * @return {[type]} [description]
@@ -166,8 +184,28 @@ var vm = new Vue({
 			const self = this;
 			this.socket.emit('get_types', {}, function() {})
 		},
+		/**
+		 * 初始化连接配置
+		 * @return {[type]} [description]
+		 */
+		initConnectConfigs() {
+			let is_remember = storage.get('is_remember');
+			this.is_remember = is_remember;
+			if (!is_remember) {
+				this.configs = {
+					host: "127.0.0.1",
+					port: 3306,
+					user: "root",
+					password: "123456",
+					database: "mysql"
+				}
+				return true;
+			};
+			this.configs = storage.get('configs');
+		},
 		initApp() {
 			this.initSocket();
+			this.initConnectConfigs();
 			this.initPlugin();
 			this.bindSocketEvent();
 		}
@@ -175,4 +213,4 @@ var vm = new Vue({
 	mounted() {
 		this.initApp()
 	}
-})
+});
