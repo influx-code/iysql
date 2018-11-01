@@ -57,6 +57,7 @@
                         </div>
                     </div>
                     <div class="control-section align-right">
+                        <el-checkbox v-model="is_remember" @change="handleCheckRemember">记住连接信息</el-checkbox>
                         <el-button  :type="is_connect?'success':'info'" @click="onSendConnectDb" v-text="is_connect?'连接成功':'测试连接'"></el-button>
                         <el-button type="primary" @click="onSendAnalyze">开始分析</el-button>
                     </div>
@@ -71,8 +72,8 @@
                     <div class="plugin-wrapper" v-if="plugins.length>0">
                         <label class="types"></label>
                         <el-checkbox :indeterminate="isIndeterminate" v-model="check_all_plugin" @change="handleCheckAllPlugin">所有工具(默认选择Soar)</el-checkbox>
-                          <div style="margin: 15px 0;"></div>
-                          <el-checkbox-group v-model="checked_plugin" @change="handleCheckedPluginChange">
+                        <div style="margin: 15px 0;"></div>
+                        <el-checkbox-group v-model="checked_plugin" @change="handleCheckedPluginChange">
                             <el-checkbox v-for="plugin in plugins" :label="plugin" :key="plugin">{{plugin}}</el-checkbox>
                         </el-checkbox-group>
                     </div>
