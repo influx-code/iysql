@@ -2,7 +2,7 @@
 * @Author: Jeffery
 * @Date:   2018-10-24 12:07:46
 * @Last Modified by:   Jeffery
-* @Last Modified time: 2018-10-24 17:22:39
+* @Last Modified time: 2018-11-02 10:45:25
 */
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, textarea, select, optgroup, option, fieldset, legend, p, blockquote, th, td {
 	font-family: Arial, "Helvetica Neue", sans-serif, 宋体;
@@ -76,6 +76,9 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, text
 
 .configs .el-select {
 	width: 100%;
+}
+.configs .el-icon-view{
+	cursor: pointer;
 }
 
 /*result*/

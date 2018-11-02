@@ -22,6 +22,7 @@ var vm = new Vue({
 		querystring: 'SELECT * FROM tables WHERE id=1',
 		is_connect: false, //是否已经连接DB
 		is_remember: storage.get('configs') === null ? false : true, //是否记住连接信息
+		password_mode: 'password', //密码输入框模式
 		configs: {
 			host: "127.0.0.1",
 			port: 3306,
@@ -75,6 +76,13 @@ var vm = new Vue({
 				self.plugins = res['types'];
 				self.checked_plugin = res['types'];
 			});
+		},
+		/**
+		 * 切换密码输入框模式
+		 * @return {[type]} [description]
+		 */
+		togglePasswordMode() {
+			this.password_mode = this.password_mode == 'password' ? 'text' : 'password';
 		},
 		/**
 		 * 选择所有插件
@@ -200,7 +208,7 @@ var vm = new Vue({
 				return true;
 			};
 			this.configs = configs;
-			
+
 		},
 		initApp() {
 			this.initSocket();
