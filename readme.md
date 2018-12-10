@@ -1,6 +1,7 @@
-IYSQL - Improve Your SQL
 
 ![logo](./docs/images/logo.svg)
+
+IYSQL - Improve Your SQL
 
 ### 介绍
 
